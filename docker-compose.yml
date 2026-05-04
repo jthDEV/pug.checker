@@ -1,0 +1,16 @@
+services:
+  plantuml:
+    image: plantuml/plantuml-server:jetty
+    restart: unless-stopped
+    expose:
+      - "8080"
+
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      PLANTUML_URL: http://plantuml:8080
+    depends_on:
+      - plantuml

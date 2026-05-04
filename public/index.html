@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>pug.checker — PlantUML Live-Editor</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header>
+    <h1>pug.checker</h1>
+    <div class="actions">
+      <input type="file" id="open-file" accept=".puml,.txt,.plantuml,.uml,.iuml" hidden />
+      <button id="open-btn" type="button">Öffnen…</button>
+      <button id="save-btn" type="button">Speichern als .puml</button>
+      <span id="status" class="status"></span>
+    </div>
+  </header>
+
+  <main>
+    <section class="editor-pane">
+      <textarea
+        id="editor"
+        spellcheck="false"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        wrap="off"></textarea>
+      <details id="gantt-ref" open>
+        <summary>Gantt-Syntax-Referenz</summary>
+        <div class="ref-scroll">
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th><input id="ref-filter" type="search" placeholder="Filter… (z. B. meilen)" autocomplete="off" /></th>
+                <th>Beispiel</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Abhängigkeit</td><td><code>[Bauen] -&gt; [Testen]</code></td></tr>
+              <tr><td>Abhängigkeit (Verzögerung)</td><td><code>[B] starts 3 days after [A]'s end</code></td></tr>
+              <tr><td>Anteil erledigt</td><td><code>[Bauen] is 40% complete</code></td></tr>
+              <tr><td>Arbeitsfreier Wochentag</td><td><code>saturday are closed</code></td></tr>
+              <tr><td>Arbeitsfreier Tag (einmalig)</td><td><code>2026-12-24 is closed</code></td></tr>
+              <tr><td>Aufgabe (Dauer)</td><td><code>[Bauen] lasts 5 days</code></td></tr>
+              <tr><td>Aufgabe (Start fest)</td><td><code>[Bauen] starts 2026-05-10</code></td></tr>
+              <tr><td>Aufgabe (Start nach Vorgänger)</td><td><code>[Testen] starts at [Bauen]'s end</code></td></tr>
+              <tr><td>Aufgabe (Ende fest)</td><td><code>[Bauen] ends 2026-05-20</code></td></tr>
+              <tr><td>Diagramm-Anfang</td><td><code>@startgantt</code></td></tr>
+              <tr><td>Diagramm-Ende</td><td><code>@endgantt</code></td></tr>
+              <tr><td>Farbe einer Aufgabe</td><td><code>[Bauen] is colored in LightBlue</code></td></tr>
+              <tr><td>Heute markieren</td><td><code>today is 2026-05-04</code></td></tr>
+              <tr><td>Meilenstein (Datum)</td><td><code>[Release] happens 2026-06-30</code></td></tr>
+              <tr><td>Meilenstein (nach Aufgabe)</td><td><code>[Release] happens at [Testen]'s end</code></td></tr>
+              <tr><td>Projektstart</td><td><code>Project starts 2026-05-01</code></td></tr>
+              <tr><td>Ressource zuweisen</td><td><code>[Bauen] is assigned to {Anna}</code></td></tr>
+              <tr><td>Sektion / Trennzeile</td><td><code>-- Phase 1 --</code></td></tr>
+              <tr><td>Skalierung (täglich/wöchentlich)</td><td><code>printscale daily</code> · <code>printscale weekly</code></td></tr>
+              <tr><td>Sprache (Wochentage etc.)</td><td><code>language de</code></td></tr>
+              <tr><td>Titel</td><td><code>title Mein Projektplan</code></td></tr>
+              <tr><td>Zoom auf Zeitraum</td><td><code>zoom 2.0</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+    <section class="preview-pane">
+      <div id="preview"></div>
+      <div id="error-panel" hidden>
+        <div class="error-header">
+          <strong>PlantUML-Fehler</strong>
+          <span id="error-line"></span>
+        </div>
+        <pre id="error-message"></pre>
+      </div>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

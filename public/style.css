@@ -1,0 +1,241 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  color: #1f2328;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background: #f6f8fa;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  background: #24292f;
+  color: #ffffff;
+  border-bottom: 1px solid #1b1f24;
+  flex-shrink: 0;
+}
+
+header h1 {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.actions button {
+  background: #373e47;
+  color: #ffffff;
+  border: 1px solid #444c56;
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+
+.actions button:hover { background: #444c56; }
+.actions button:active { background: #2d333b; }
+
+.status {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-left: 0.5rem;
+  min-width: 8ch;
+}
+
+main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.editor-pane,
+.preview-pane {
+  overflow: auto;
+  min-height: 0;
+}
+
+.editor-pane {
+  border-right: 1px solid #d0d7de;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#editor {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  border: 0;
+  padding: 1rem;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  resize: none;
+  outline: none;
+  tab-size: 2;
+  white-space: pre;
+  overflow: auto;
+}
+
+#gantt-ref {
+  flex: 0 0 auto;
+  border-top: 1px solid #d0d7de;
+  background: #f6f8fa;
+}
+
+#gantt-ref[open] { display: block; }
+
+#gantt-ref summary {
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #57606a;
+  cursor: pointer;
+  user-select: none;
+  background: #eaeef2;
+  border-bottom: 1px solid #d0d7de;
+}
+
+#gantt-ref summary:hover { background: #dfe3e8; }
+
+.ref-scroll {
+  overflow: auto;
+  max-height: 38vh;
+}
+
+.ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.ref-table th,
+.ref-table td {
+  text-align: left;
+  padding: 0.35rem 0.75rem;
+  border-bottom: 1px solid #eaeef2;
+  vertical-align: top;
+}
+
+.ref-table th {
+  position: sticky;
+  top: 0;
+  background: #f6f8fa;
+  font-weight: 600;
+  color: #57606a;
+  border-bottom: 1px solid #d0d7de;
+  z-index: 1;
+  padding: 0.25rem 0.5rem;
+}
+
+#ref-filter {
+  width: 100%;
+  border: 1px solid #d0d7de;
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+  font: inherit;
+  font-size: 0.8rem;
+  background: #ffffff;
+  outline: none;
+}
+
+#ref-filter:focus {
+  border-color: #0969da;
+  box-shadow: 0 0 0 2px rgba(9, 105, 218, 0.2);
+}
+
+.ref-table tr.hidden { display: none; }
+
+.ref-table td:first-child {
+  white-space: nowrap;
+  color: #1f2328;
+  width: 1%;
+}
+
+.ref-table code {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 4px;
+  padding: 0.05rem 0.35rem;
+  font-size: 0.78rem;
+  color: #0550ae;
+  white-space: nowrap;
+}
+
+.preview-pane {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#preview {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  overflow: auto;
+  padding: 1rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+#preview svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+#error-panel {
+  background: #ffebe9;
+  color: #82071e;
+  border-top: 2px solid #cf222e;
+  padding: 0.65rem 1rem;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  flex: 0 0 auto;
+  max-height: 40%;
+  overflow: auto;
+}
+
+.error-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: -apple-system, system-ui, sans-serif;
+  margin-bottom: 0.35rem;
+}
+
+#error-line {
+  font-size: 0.8rem;
+  background: #cf222e;
+  color: #ffffff;
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+}
+
+#error-line:empty { display: none; }
+
+#error-message {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
