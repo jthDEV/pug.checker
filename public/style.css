@@ -49,11 +49,41 @@ header h1 {
 .actions button:hover { background: #444c56; }
 .actions button:active { background: #2d333b; }
 
+.preview-pane { position: relative; }
+
 .status {
-  font-size: 0.8rem;
-  opacity: 0.7;
-  margin-left: 0.5rem;
-  min-width: 8ch;
+  position: absolute;
+  top: 0.6rem;
+  right: 0.75rem;
+  z-index: 2;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  pointer-events: none;
+}
+
+.status:empty { display: none; }
+
+.status[data-state="ok"] {
+  background: #dafbe1;
+  color: #1a7f37;
+  border-color: #aceebb;
+}
+
+.status[data-state="error"] {
+  background: #ffebe9;
+  color: #cf222e;
+  border-color: #ffcecb;
+}
+
+.status[data-state="loading"] {
+  background: #f6f8fa;
+  color: #57606a;
+  border-color: #d0d7de;
 }
 
 .version {

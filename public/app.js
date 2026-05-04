@@ -45,6 +45,11 @@ editor.addEventListener('scroll', () => {
 let timer = null;
 let inflight = null;
 
+function setStatus(state, text) {
+  status.dataset.state = state;
+  status.textContent = text;
+}
+
 function scheduleRender() {
   clearTimeout(timer);
   timer = setTimeout(render, 300);
@@ -58,7 +63,7 @@ async function render() {
   const controller = new AbortController();
   inflight = controller;
 
-  status.textContent = 'rendere…';
+  setStatus('loading', 'rendere…');
 
   try {
     const res = await fetch('/render', {
@@ -77,11 +82,11 @@ async function render() {
       errorMessage.textContent = error;
       errorLine.textContent = line ? `Zeile ${line}` : '';
       errorPanel.hidden = false;
-      status.textContent = 'Fehler';
+      setStatus('error', line ? `Fehler · Zeile ${line}` : 'Fehler');
       errorLineNumber = line;
     } else {
       errorPanel.hidden = true;
-      status.textContent = 'OK';
+      setStatus('ok', 'OK');
       errorLineNumber = null;
     }
     updateLineNumbers();
@@ -90,7 +95,7 @@ async function render() {
     errorMessage.textContent = `Verbindungsfehler: ${e.message}`;
     errorLine.textContent = '';
     errorPanel.hidden = false;
-    status.textContent = 'Fehler';
+    setStatus('error', 'Fehler');
   } finally {
     if (inflight === controller) inflight = null;
   }
@@ -112,11 +117,19 @@ editor.addEventListener('keydown', (e) => {
 });
 
 saveBtn.addEventListener('click', () => {
+  const suggested = `diagramm-${new Date().toISOString().slice(0, 10)}.puml`;
+  const input = window.prompt('Dateiname zum Speichern:', suggested);
+  if (input === null) return;
+
+  let name = input.trim();
+  if (name === '') return;
+  if (!/\.[a-z0-9]+$/i.test(name)) name += '.puml';
+
   const blob = new Blob([editor.value], { type: 'text/plain;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `diagramm-${new Date().toISOString().slice(0, 10)}.puml`;
+  a.download = name;
   document.body.appendChild(a);
   a.click();
   a.remove();

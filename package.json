@@ -1,6 +1,6 @@
 {
   "name": "pug-checker",
-  "version": "0.5.0",
+  "version": "0.7.0",
   "description": "Lokaler PlantUML Live-Editor mit Split-View und Fehleranzeige",
   "type": "module",
   "private": true,

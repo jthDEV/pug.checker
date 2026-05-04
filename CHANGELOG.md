@@ -7,6 +7,20 @@ und das Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-05-04
+
+### Changed
+- Status-Anzeige aus dem Header entfernt und als farbiges Badge in die obere
+  rechte Ecke des Preview-Bereichs verschoben:
+  grün bei Erfolg, rot bei Fehler (mit Zeilennummer), grau bei laufendem Render
+
+## [0.6.0] - 2026-05-04
+
+### Added
+- Beim Speichern wird ein Dialog mit vorgeschlagenem Dateinamen angezeigt
+  (`diagramm-YYYY-MM-DD.puml`), der vor dem Download angepasst werden kann
+- Fehlt eine Dateierweiterung im eingegebenen Namen, wird automatisch `.puml` angehängt
+
 ## [0.5.0] - 2026-05-04
 
 ### Added
@@ -47,7 +61,9 @@ und das Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Tab-Taste fügt zwei Leerzeichen ein
 - Docker-Setup mit zwei Containern (PlantUML-Server + Node-24-App)
 
-[Unreleased]: https://github.com/<user>/pug.checker/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/<user>/pug.checker/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/<user>/pug.checker/compare/v0.6.0...v0.7.0
+[0.6.0]: https://github.com/<user>/pug.checker/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/<user>/pug.checker/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/<user>/pug.checker/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/<user>/pug.checker/compare/v0.2.0...v0.3.0

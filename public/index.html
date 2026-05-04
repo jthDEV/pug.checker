@@ -13,7 +13,6 @@
       <input type="file" id="open-file" accept=".puml,.txt,.plantuml,.uml,.iuml" hidden />
       <button id="open-btn" type="button">Öffnen…</button>
       <button id="save-btn" type="button">Speichern als .puml</button>
-      <span id="status" class="status"></span>
       <span id="version" class="version" title=""></span>
     </div>
   </header>
@@ -69,6 +68,7 @@
       </details>
     </section>
     <section class="preview-pane">
+      <span id="status" class="status" data-state="idle"></span>
       <div id="preview"></div>
       <div id="error-panel" hidden>
         <div class="error-header">
