@@ -1,4 +1,5 @@
 const editor = document.getElementById('editor');
+const lineNumbers = document.getElementById('line-numbers');
 const preview = document.getElementById('preview');
 const errorPanel = document.getElementById('error-panel');
 const errorMessage = document.getElementById('error-message');
@@ -24,6 +25,22 @@ T --> PO: Auslieferung
 `;
 
 editor.value = localStorage.getItem(STORAGE_KEY) ?? DEFAULT_SOURCE;
+
+let errorLineNumber = null;
+
+function updateLineNumbers() {
+  const count = editor.value.split('\n').length;
+  const parts = [];
+  for (let i = 1; i <= count; i++) {
+    parts.push(i === errorLineNumber ? `<span class="err">${i}</span>` : String(i));
+  }
+  lineNumbers.innerHTML = parts.join('\n');
+  lineNumbers.scrollTop = editor.scrollTop;
+}
+
+editor.addEventListener('scroll', () => {
+  lineNumbers.scrollTop = editor.scrollTop;
+});
 
 let timer = null;
 let inflight = null;
@@ -61,10 +78,13 @@ async function render() {
       errorLine.textContent = line ? `Zeile ${line}` : '';
       errorPanel.hidden = false;
       status.textContent = 'Fehler';
+      errorLineNumber = line;
     } else {
       errorPanel.hidden = true;
       status.textContent = 'OK';
+      errorLineNumber = null;
     }
+    updateLineNumbers();
   } catch (e) {
     if (e.name === 'AbortError') return;
     errorMessage.textContent = `Verbindungsfehler: ${e.message}`;
@@ -76,7 +96,10 @@ async function render() {
   }
 }
 
-editor.addEventListener('input', scheduleRender);
+editor.addEventListener('input', () => {
+  updateLineNumbers();
+  scheduleRender();
+});
 
 editor.addEventListener('keydown', (e) => {
   if (e.key === 'Tab') {
@@ -121,4 +144,16 @@ refFilter?.addEventListener('input', () => {
   }
 });
 
+updateLineNumbers();
 render();
+
+(async () => {
+  try {
+    const res = await fetch('/version');
+    if (!res.ok) return;
+    const { version, buildSha, buildTime } = await res.json();
+    const el = document.getElementById('version');
+    el.textContent = `v${version} · ${buildSha.slice(0, 7)}`;
+    el.title = `Version ${version}\nBuild ${buildSha}\nGebaut: ${buildTime}`;
+  } catch {}
+})();

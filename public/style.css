@@ -56,6 +56,14 @@ header h1 {
   min-width: 8ch;
 }
 
+.version {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  opacity: 0.6;
+  margin-left: 0.5rem;
+  cursor: help;
+}
+
 main {
   flex: 1;
   display: grid;
@@ -76,6 +84,38 @@ main {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+.editor-wrap {
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+#line-numbers {
+  flex: 0 0 auto;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  padding: 1rem 0.5rem 1rem 0.75rem;
+  background: #f6f8fa;
+  color: #8c959f;
+  text-align: right;
+  user-select: none;
+  border-right: 1px solid #d0d7de;
+  overflow: hidden;
+  white-space: pre;
+  min-width: 2.5rem;
+}
+
+#line-numbers .err {
+  background: #cf222e;
+  color: #ffffff;
+  border-radius: 3px;
+  padding: 0 0.3rem;
+  margin: 0 -0.3rem;
 }
 
 #editor {

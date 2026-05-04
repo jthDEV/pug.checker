@@ -14,18 +14,22 @@
       <button id="open-btn" type="button">Öffnen…</button>
       <button id="save-btn" type="button">Speichern als .puml</button>
       <span id="status" class="status"></span>
+      <span id="version" class="version" title=""></span>
     </div>
   </header>
 
   <main>
     <section class="editor-pane">
-      <textarea
-        id="editor"
-        spellcheck="false"
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"
-        wrap="off"></textarea>
+      <div class="editor-wrap">
+        <div id="line-numbers" aria-hidden="true"></div>
+        <textarea
+          id="editor"
+          spellcheck="false"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          wrap="off"></textarea>
+      </div>
       <details id="gantt-ref" open>
         <summary>Gantt-Syntax-Referenz</summary>
         <div class="ref-scroll">

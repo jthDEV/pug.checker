@@ -8,6 +8,13 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT ?? 3000);
 const PLANTUML_URL = process.env.PLANTUML_URL ?? 'http://localhost:8080';
 
+const pkg = JSON.parse(await readFile(join(__dirname, 'package.json'), 'utf8'));
+const VERSION_INFO = {
+  version: pkg.version,
+  buildSha: process.env.BUILD_SHA ?? 'dev',
+  buildTime: process.env.BUILD_TIME ?? new Date().toISOString(),
+};
+
 const MIME = {
   '.html': 'text/html; charset=utf-8',
   '.css':  'text/css; charset=utf-8',
@@ -24,6 +31,11 @@ const server = createServer(async (req, res) => {
 
     if (req.method === 'POST' && url.pathname === '/render') {
       return await handleRender(req, res);
+    }
+
+    if (req.method === 'GET' && url.pathname === '/version') {
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify(VERSION_INFO));
     }
 
     if (req.method === 'GET') {
@@ -91,6 +103,6 @@ function readBody(req) {
 }
 
 server.listen(PORT, () => {
-  console.log(`pug.checker läuft auf http://localhost:${PORT}`);
+  console.log(`pug.checker v${VERSION_INFO.version} (${VERSION_INFO.buildSha}) läuft auf http://localhost:${PORT}`);
   console.log(`PlantUML-Server: ${PLANTUML_URL}`);
 });

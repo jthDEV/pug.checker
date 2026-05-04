@@ -6,7 +6,11 @@ services:
       - "8080"
 
   app:
-    build: .
+    build:
+      context: .
+      args:
+        BUILD_SHA: ${BUILD_SHA:-unknown}
+        BUILD_TIME: ${BUILD_TIME:-unknown}
     restart: unless-stopped
     ports:
       - "3000:3000"

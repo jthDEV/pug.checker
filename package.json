@@ -1,6 +1,6 @@
 {
   "name": "pug-checker",
-  "version": "1.0.0",
+  "version": "0.5.0",
   "description": "Lokaler PlantUML Live-Editor mit Split-View und Fehleranzeige",
   "type": "module",
   "private": true,
@@ -8,7 +8,8 @@
     "node": ">=24"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "docker:up": "BUILD_SHA=$(git rev-parse --short HEAD 2>/dev/null || echo dev) BUILD_TIME=$(date -u +%Y-%m-%dT%H:%M:%SZ) docker compose up -d --build"
   },
   "dependencies": {
     "plantuml-encoder": "^1.4.0"
