@@ -7,6 +7,19 @@ und das Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-05-04
+
+### Added
+- Speichern als PNG (gerendertes Bild) zusätzlich zum bisherigen `.puml`-Export
+- Neuer Server-Endpoint `POST /png`, der das Diagramm als PNG-Bild liefert
+- Verzeichnis-Auswahl beim Speichern via File System Access API
+  (in Chromium-basierten Browsern); Fallback auf Dateinamen-Prompt + Standard-
+  Download-Verzeichnis in Firefox/Safari
+
+### Changed
+- Der einzelne „Speichern"-Button wurde durch zwei separate Buttons
+  („Speichern .puml" / „Speichern .png") ersetzt
+
 ## [0.7.0] - 2026-05-04
 
 ### Changed
@@ -61,7 +74,8 @@ und das Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Tab-Taste fügt zwei Leerzeichen ein
 - Docker-Setup mit zwei Containern (PlantUML-Server + Node-24-App)
 
-[Unreleased]: https://github.com/<user>/pug.checker/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/<user>/pug.checker/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/<user>/pug.checker/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/<user>/pug.checker/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/<user>/pug.checker/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/<user>/pug.checker/compare/v0.4.0...v0.5.0

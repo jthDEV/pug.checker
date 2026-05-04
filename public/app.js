@@ -5,7 +5,8 @@ const errorPanel = document.getElementById('error-panel');
 const errorMessage = document.getElementById('error-message');
 const errorLine = document.getElementById('error-line');
 const status = document.getElementById('status');
-const saveBtn = document.getElementById('save-btn');
+const savePumlBtn = document.getElementById('save-puml-btn');
+const savePngBtn = document.getElementById('save-png-btn');
 const openBtn = document.getElementById('open-btn');
 const openFile = document.getElementById('open-file');
 
@@ -116,16 +117,31 @@ editor.addEventListener('keydown', (e) => {
   }
 });
 
-saveBtn.addEventListener('click', () => {
-  const suggested = `diagramm-${new Date().toISOString().slice(0, 10)}.puml`;
-  const input = window.prompt('Dateiname zum Speichern:', suggested);
-  if (input === null) return;
+async function saveAs({ data, suggestedName, mime, ext, description }) {
+  const blob = data instanceof Blob ? data : new Blob([data], { type: mime });
 
+  if (typeof window.showSaveFilePicker === 'function') {
+    try {
+      const handle = await window.showSaveFilePicker({
+        suggestedName,
+        types: [{ description, accept: { [mime]: [ext] } }],
+      });
+      const writable = await handle.createWritable();
+      await writable.write(blob);
+      await writable.close();
+    } catch (e) {
+      if (e.name !== 'AbortError') console.error(e);
+    }
+    return;
+  }
+
+  // Fallback (Firefox / Safari): Dateiname-Prompt + klassischer Download
+  const input = window.prompt('Dateiname zum Speichern:', suggestedName);
+  if (input === null) return;
   let name = input.trim();
   if (name === '') return;
-  if (!/\.[a-z0-9]+$/i.test(name)) name += '.puml';
+  if (!/\.[a-z0-9]+$/i.test(name)) name += ext;
 
-  const blob = new Blob([editor.value], { type: 'text/plain;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -134,6 +150,46 @@ saveBtn.addEventListener('click', () => {
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
+}
+
+function defaultName(ext) {
+  return `diagramm-${new Date().toISOString().slice(0, 10)}${ext}`;
+}
+
+savePumlBtn.addEventListener('click', () => {
+  saveAs({
+    data: editor.value,
+    suggestedName: defaultName('.puml'),
+    mime: 'text/plain',
+    ext: '.puml',
+    description: 'PlantUML-Quelldatei',
+  });
+});
+
+savePngBtn.addEventListener('click', async () => {
+  setStatus('loading', 'erzeuge PNG…');
+  try {
+    const res = await fetch('/png', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ source: editor.value }),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const blob = await res.blob();
+    setStatus('ok', 'OK');
+    await saveAs({
+      data: blob,
+      suggestedName: defaultName('.png'),
+      mime: 'image/png',
+      ext: '.png',
+      description: 'PNG-Bild',
+    });
+  } catch (e) {
+    setStatus('error', 'PNG-Fehler');
+    errorMessage.textContent = `PNG-Export fehlgeschlagen: ${e.message}`;
+    errorLine.textContent = '';
+    errorPanel.hidden = false;
+  }
 });
 
 openBtn.addEventListener('click', () => openFile.click());
